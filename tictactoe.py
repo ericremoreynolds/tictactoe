@@ -1,4 +1,5 @@
 from strategies import human_strategy, random_strategy
+from eric_strategy import eric_strategy
 
 X = 'x'
 O = 'o'
@@ -18,15 +19,11 @@ class State(object):
 		)
 	)
 	
-	opponent = {
-		X: O,
-		O: X
-	}
-
 	def __init__(self, turn, board):
 		self.turn = turn
+		self.opponent = X if turn is O else O
 		self.board = tuple(board)
-		
+				
 	def winner(self):
 		for indices in State.winning_combinations:
 			selection = tuple(self.board[i] for i in indices)
@@ -42,7 +39,7 @@ class State(object):
 		assert self.board[i] is None
 		board = list(self.board)
 		board[i] = self.turn
-		return State(State.opponent[self.turn], board)
+		return State(self.opponent, board)
 		
 	def __str__(self):
 		s  = "     1   2   3\n"
@@ -58,7 +55,7 @@ class State(object):
 		
 strategies = (
 	human_strategy,
-	random_strategy
+	eric_strategy
 )
 
 state = State('o', (None for _ in range(9)))
@@ -77,6 +74,8 @@ if __name__ == "__main__":
 				O: "O won",
 				0: "Draw"
 			}[winner]
-			exit()
+			break
 		turn += 1
-		
+	print "Players were:"
+	print "  O: " + str(strategies[0])
+	print "  X: " + str(strategies[1])
