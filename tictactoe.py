@@ -1,5 +1,6 @@
 from strategies import human_strategy, random_strategy
 from eric_strategy import eric_strategy
+from tommaso_strategy import tommaso_strategy
 
 X = 'x'
 O = 'o'
